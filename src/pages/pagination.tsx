@@ -1,22 +1,24 @@
-import { useRouter } from 'next/router';
-import Link from 'next/link';
 import type { NextPage } from 'next';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-
 import products from '../api/data/products.json';
 import ProductList from '../components/ProductList';
 import Pagination from '../components/Pagination';
+import usePagination from '../hooks/usePagination';
+import { getProductList } from '../services';
+// import axios from 'axios';
+
+
 
 const PaginationPage: NextPage = () => {
-  const router = useRouter();
-  const { page } = router.query;
+  const total = useRef<number>(0);
+  const updateTotal = (totalCount: number) => total.current = totalCount;
 
   return (
     <>
       <Container>
-        <ProductList products={products.slice(0, 10)} />
-        <Pagination />
+        <ProductList total={total.current} updateTotal={updateTotal} />
+        <Pagination total={total.current} />
       </Container>
     </>
   );

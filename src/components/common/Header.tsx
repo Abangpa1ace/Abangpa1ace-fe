@@ -18,7 +18,7 @@ const Header = () => {
       </Link>
       <LoginController>{!!userInfo
         ? <div className='info'>
-            <p>{userInfo?.user.NAME}</p>
+            <p className='name'>{userInfo?.user.NAME}</p>
             <p className='pointer' onClick={() => logout()}>logout</p>
           </div>
         : <Link href='/login'>
@@ -29,11 +29,16 @@ const Header = () => {
   )
 }
 
-const ScHeader = styled.div`
+const ScHeader = styled.header`
+  position: absolute;
+  left: 0;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   padding: 20px;
+  background: #f4f4fe;
 `;
 
 const Title = styled.a`
@@ -43,11 +48,15 @@ const Title = styled.a`
 const LoginController = styled.div`
   p {
     text-align: right;
-    
-    &.pointer { cursor: pointer; }
     & + p {  
       margin-top: 8px;
     }
+
+    &.name {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    &.pointer { cursor: pointer; }
   }
 `;
 

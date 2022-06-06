@@ -31,8 +31,14 @@ const Background = styled.div`
 `;
 
 const Content = styled.div`
+  position: relative;
   width: 420px;
   min-height: 100%;
   margin: 0 auto;
   background-color: #fff;
+
+  > *:not(header) {
+    min-height: calc(100vh - 100px);
+    padding-top: 100px;
+  }
 `;

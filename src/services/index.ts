@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { setQueryPath } from "../utilities/pagination";
 
 const instance = axios.create({
   headers: {
@@ -13,7 +14,8 @@ const instance = axios.create({
 const responseBody = (res: AxiosResponse) => res.data.data;
 
 const errorHandler = (err: AxiosError) => {
-  throw err
+  if (err.response?.status === 404) location.assign('/notFound')
+  else throw err
 }
 
 const api = {
@@ -21,4 +23,10 @@ const api = {
   post: async <B, R>(url: string, body: B): Promise<R> => await instance.post(url, body).then(responseBody).catch(errorHandler),
 }
 
-export const postLogin = (body: LoginReqType) => api.post<LoginReqType, LoginResType>('/login', body)
+export const postLogin = (body: LoginReqType) => {
+  return api.post<LoginReqType, LoginResType>('/login', body)
+}
+
+export const getProductList = ({ page = 1, size = 10 }: ProductListReqType) => {
+  return api.get<ProductListResType>(setQueryPath('/products', { page, size }))
+}

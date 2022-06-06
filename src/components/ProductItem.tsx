@@ -1,30 +1,56 @@
+import Link from 'next/link';
 import styled from 'styled-components';
-
+import { useRouter } from 'next/router';
 import { Product } from '../types/product';
 
 type ProductItemProps = {
   product: Product;
 };
 
-const ProductItem = ({ product: { name, thumbnail, price } }: ProductItemProps) => (
-  <Container>
-    <Thumbnail src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
-    <Name>{name}</Name>
-    <Price>{price}</Price>
-  </Container>
-);
+const ProductItem = ({ product: { id, name, thumbnail, price } }: ProductItemProps) => {
+  const router = useRouter();
+  const routeDetail = () => router.push(`/products/${id}`)
+
+  return (
+    <Container onClick={routeDetail}>
+      <Thumbnail>
+        <img src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
+      </Thumbnail>
+      <Name>{name}</Name>
+      <Price>{price.toLocaleString()}</Price>
+    </Container>
+  )
+}
+
 
 export default ProductItem;
 
-const Container = styled.a`
+const Container = styled.div`
   width: 180px;
   margin-left: 20px;
   margin-top: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f4f4f4;
+    transition: background .3s ease;
+
+    img {
+      transform: scale(1.05);
+      transition: transform .3s ease;
+    }
+  }
 `;
 
-const Thumbnail = styled.img`
+const Thumbnail = styled.div`
   width: 100%;
   height: 180px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Name = styled.div`
