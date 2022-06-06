@@ -5,11 +5,11 @@ import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc';
 import { NextPage } from 'next';
 
 type Props = {
-  total: number;
+  totalCount: number;
 }
 
-const Pagination: NextPage<Props> = ({ total }) => {
-  const { pageInfo, routePage, goPrevGroup, goNextGroup } = usePagination({ totalCount: total })
+const Pagination: NextPage<Props> = ({ totalCount }) => {
+  const { pageInfo, routePage, goPrevGroup, goNextGroup } = usePagination({ totalCount })
   const { page, pageList, noPrevGroup, noNextGroup } = pageInfo;
 
   return (
