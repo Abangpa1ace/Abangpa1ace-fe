@@ -1,20 +1,22 @@
 import type { AppProps } from 'next/app';
 import styled from 'styled-components';
-
+import { RecoilRoot } from 'recoil';
 import setupMSW from '../api/setup';
 import GlobalStyle from '../styles/GlobalStyle';
+import Header from '../components/common/Header';
 
 setupMSW();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <RecoilRoot>
       <GlobalStyle />
       <Background />
       <Content>
+        <Header />
         <Component {...pageProps} />
       </Content>
-    </>
+    </RecoilRoot>
   );
 }
 
