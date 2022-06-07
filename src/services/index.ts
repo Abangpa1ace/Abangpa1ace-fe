@@ -30,3 +30,7 @@ export const postLogin = (body: LoginReqType) => {
 export const getProductList = ({ page = 1, size = 10 }: ProductListReqType, handleError = true) => {
   return api.get<ProductListResType>(setQueryPath('/products', { page, size }), null, handleError)
 }
+
+export const getProductDetail = (id: string) => {
+  return api.get<{ product: ProductType }>(`/products/${+id}`)
+}
