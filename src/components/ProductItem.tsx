@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Image from "next/image";
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { Product } from '../types/product';
@@ -8,13 +8,13 @@ type ProductItemProps = {
 };
 
 const ProductItem = ({ product: { id, name, thumbnail, price } }: ProductItemProps) => {
-  const router = useRouter();
-  const routeDetail = () => router.push(`/products/${id}`)
+  const { push } = useRouter();
+  const routeDetail = () => push(`/products/${id}`)
 
   return (
     <Container onClick={routeDetail}>
       <Thumbnail>
-        <img src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
+        <Image src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} width={180} height={180} />
       </Thumbnail>
       <Name>{name}</Name>
       <Price>{price.toLocaleString()}</Price>

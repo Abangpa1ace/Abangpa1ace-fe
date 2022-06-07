@@ -36,6 +36,7 @@ const Content = styled.div`
   min-height: 100%;
   margin: 0 auto;
   background-color: #fff;
+  overflow: hidden;
 
   > *:not(header) {
     min-height: calc(100vh - 100px);

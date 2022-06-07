@@ -26,7 +26,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  margin-top: 40px;
 `;
 
 const StyledLink = styled.a`
@@ -38,8 +37,13 @@ const StyledLink = styled.a`
   background-color: #222;
   color: #fff;
   font-size: 24px;
+  cursor: pointer;
 
   & + & {
     margin-top: 40px;
+  }
+
+  &:hover {
+    opacity: .8;
   }
 `;

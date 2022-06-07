@@ -64,7 +64,6 @@ export default LoginPage;
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
   padding: 0 20px 40px;
 `;
 
