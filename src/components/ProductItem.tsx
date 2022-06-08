@@ -18,7 +18,7 @@ const ProductItem = ({ product: { id, name, thumbnail, price }, beforeRoute }: P
   return (
     <Container onClick={routeDetail}>
       <Thumbnail>
-        <Image src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} width={180} height={180} placeholder="blur" />
+        <Image src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} width={180} height={180} loading="lazy" />
       </Thumbnail>
       <Name>{name}</Name>
       <Price>{price.toLocaleString()}</Price>
