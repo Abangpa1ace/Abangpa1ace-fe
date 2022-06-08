@@ -4,12 +4,15 @@ type LoginReqType = {
   password: string;
 }
 
-type LoginResType = {
-  "accessToken": string,
+interface UserInfoType {
   "user": {
     ID: string,
     NAME: string,
   }
+}
+
+interface LoginResType extends UserInfoType {
+  "accessToken": string,
 }
 
 

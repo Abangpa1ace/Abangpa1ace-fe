@@ -27,6 +27,10 @@ export const postLogin = (body: LoginReqType) => {
   return api.post<LoginReqType, LoginResType>('/login', body)
 }
 
+export const getUsersData = (id: string) => {
+  return api.get<UserInfoType>(`/users/${id}`);
+}
+
 export const getProductList = ({ page = 1, size = 10 }: ProductListReqType, customError = false) => {
   return api.get<ProductListResType>(setQueryPath('/products', { page, size }), null, customError)
 }

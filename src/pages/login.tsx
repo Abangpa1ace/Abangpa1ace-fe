@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router'
 import styled from 'styled-components';
 import BaseInput, { UpdateForm, UpdateFormValid } from '../components/common/BaseInput';
-import { postLogin } from '../services';
+import { getUsersData, postLogin } from '../services';
 import { useRecoilState } from 'recoil';
 import { userInfoAtom } from '../recoil';
 
@@ -42,7 +42,8 @@ const LoginPage: NextPage = () => {
     if (!isComplete) return alert('아이디와 비밀번호를 재확인해주세요!')
     const res = await postLogin(loginForm);
     if (!res) return;
-    await setUserInfo(res);
+    const userData = await getUsersData(res.user.ID);
+    setUserInfo({ ...res, userData });
     return router.push('/')
   }
 

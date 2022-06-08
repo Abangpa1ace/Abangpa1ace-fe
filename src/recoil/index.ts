@@ -10,7 +10,16 @@ const sessionAtom = () => {
   return persistAtom
 }
 
-export const userInfoAtom = atom<LoginResType | null>({
+type UserInfoAtomType = {
+  "accessToken": string,
+  "user": {
+    ID: string,
+    NAME: string,
+  },
+  userData: UserInfoType
+} | null
+
+export const userInfoAtom = atom<UserInfoAtomType>({
   key: 'UserInfo',
   default: null,
   effects_UNSTABLE: [sessionAtom()],

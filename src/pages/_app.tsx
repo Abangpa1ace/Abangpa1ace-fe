@@ -9,14 +9,16 @@ setupMSW();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <RecoilRoot>
+    <>
       <GlobalStyle />
       <Background />
       <Content>
+        <RecoilRoot>
         <Header />
         <Component {...pageProps} />
+        </RecoilRoot>
       </Content>
-    </RecoilRoot>
+    </>
   );
 }
 

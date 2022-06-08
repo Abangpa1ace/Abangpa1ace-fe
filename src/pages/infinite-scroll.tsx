@@ -39,10 +39,7 @@ const InfiniteScrollPage: GetNextPageParamFunction = () => {
     }
     catch(e) {
       const err = e as AxiosError;
-      if (err.code === 'ERR_BAD_REQUEST') {
-        setLoaded(true);
-        return;
-      }
+      if (err.code === 'ERR_BAD_REQUEST') return setLoaded(true);
       throw err;
     }
   }
