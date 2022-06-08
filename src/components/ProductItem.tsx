@@ -5,11 +5,15 @@ import { Product } from '../types/product';
 
 type ProductItemProps = {
   product: Product;
+  beforeRoute?: () => void;
 };
 
-const ProductItem = ({ product: { id, name, thumbnail, price } }: ProductItemProps) => {
+const ProductItem = ({ product: { id, name, thumbnail, price }, beforeRoute }: ProductItemProps) => {
   const { push } = useRouter();
-  const routeDetail = () => push(`/products/${id}`)
+  const routeDetail = () => {
+    if (beforeRoute) beforeRoute();
+    push(`/products/${id}`)
+  }
 
   return (
     <Container onClick={routeDetail}>

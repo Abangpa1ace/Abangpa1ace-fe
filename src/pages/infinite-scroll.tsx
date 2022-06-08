@@ -1,38 +1,40 @@
 import type { NextPage } from 'next';
 import React, { useState, useRef, useEffect} from 'react';
 import styled from 'styled-components';
-import ProductList from '../components/ProductList';
+import ProductList, { Container as ProductListContainer} from '../components/ProductList';
 import { getProductList } from '../services';
 import useIntersection from '../hooks/useIntersection';
 import { GetNextPageParamFunction } from 'react-query';
-import ProductListSkeleton from '../components/ProductListSkeleton';
 import useScrollSave from '../hooks/useScrollSave';
 import { getStorage, setStorage } from '../utilities/storage';
-import { useRecoilState } from 'recoil';
-import { productListAtom } from '../recoil';
 import { AxiosError } from 'axios';
 
 const InfiniteScrollPage: GetNextPageParamFunction = () => {
-  const page = useRef<number>(1);
-  const [productList, setProductList] = useRecoilState(productListAtom);
+  const [productList, setProductList] = useState<ProductType[]>([]);
+  const pageRef = useRef<number>(0);
   const [loaded, setLoaded] = useState<boolean>(false);
+  const [showLoader, setShowLoader] = useState(false);
 
-  useScrollSave();
+  const { initScroll } = useScrollSave();
   
   useEffect(() => {
-    if (!productList.length) fetchProductList();
+    init();
   }, [])
 
-  const fetchProductList = async () => {
+  const init = async () => {    
+    const savedPage: number = getStorage('productsPage', false) || 0;
+    await fetchProductList(savedPage ? savedPage * 16 : 16, true)
+    if (savedPage) pageRef.current = +savedPage;
+    setShowLoader(true);
+    await initScroll()
+  }
+
+  const fetchProductList = async (size = 16, isInit = false) => {
     try {
-      if (loaded) return;
-      const { products, totalCount } = await getProductList({ page: page.current, size: 16 }, false)
-      if (productList.length >= totalCount) {
-        setLoaded(true);
-        return;
-      }
-      await page.current++;
-      setProductList(prev => page.current === 1 || !prev.length ? products : [...prev, ...products]);
+      if (!isInit && loaded) return;
+      pageRef.current++
+      const { products, totalCount } = await getProductList({ page: pageRef.current, size }, true)
+      setProductList(prev => isInit ? products : [...prev, ...products]);
       if (productList.length >= totalCount) setLoaded(true);
     }
     catch(e) {
@@ -47,11 +49,15 @@ const InfiniteScrollPage: GetNextPageParamFunction = () => {
 
   const { setTarget } = useIntersection({ onIntersect: fetchProductList })
 
+  const beforeRouteItem = () => {
+    setStorage('productsPage', pageRef.current, false);
+  }
+
   return (
     <>
       <Container>
-        <ProductList products={productList} />
-        {!loaded && <FetchLoader ref={setTarget} />}
+        <ProductList products={productList} beforeRouteItem={beforeRouteItem} />
+        {(showLoader && !loaded) && <FetchLoader ref={setTarget} />}
       </Container>
     </>
   );
@@ -63,11 +69,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   padding: 0 20px;
 `;
 
 const FetchLoader = styled.div`
+  position: absolute;
+  bottom: 0;
   width: 100%;
-  margin-bottom: 20px;
+  height: 5px;
+  border: 1px solid blue;
 `

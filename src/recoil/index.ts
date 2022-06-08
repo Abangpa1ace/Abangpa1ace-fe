@@ -16,8 +16,14 @@ export const userInfoAtom = atom<LoginResType | null>({
   effects_UNSTABLE: [sessionAtom()],
 })
 
-export const productListAtom = atom<ProductType[]>({
-  key: 'ProductList',
-  default: [],
+type ProductsDataAtomType = {
+  page: number,
+  productList: ProductType[],
+  total: number,
+}
+
+export const productsDataAtom = atom<ProductsDataAtomType>({
+  key: 'ProductsData',
+  default: { page: 0, productList: [], total: 0 },
   effects_UNSTABLE: [sessionAtom()],
 })

@@ -6,12 +6,13 @@ import ProductItem from './ProductItem';
 
 type ProductListProps = {
   products: Product[];
+  beforeRouteItem?: () => void;
 };
 
-const ProductList = ({ products }: ProductListProps) => (
+const ProductList = ({ products, beforeRouteItem }: ProductListProps) => (
   <Container>
     {products?.map((product, idx) => (
-      <ProductItem key={`${product.id}-${product.name}-${idx}`} product={product} />
+      <ProductItem key={`${product.id}-${product.name}-${idx}`} product={product} beforeRoute={beforeRouteItem} />
     ))}
   </Container>
 );
@@ -22,10 +23,10 @@ function compareProps(prev: ProductListProps, next: ProductListProps) {
 
 export default React.memo(ProductList, compareProps)
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 400px;
-  min-height: 100vh;
+  min-height: calc(100vh - 90px);
   margin-left: -20px;
 `;

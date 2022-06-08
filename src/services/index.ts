@@ -19,7 +19,7 @@ const errorHandler = (err: AxiosError) => {
 }
 
 const api = {
-  get: async <R>(url: string, params?: object | null, handleError = true): Promise<R> => await instance.get(url, params as object).then(responseBody).catch(!handleError ? (e) => { throw e } : errorHandler),
+  get: async <R>(url: string, params?: object | null, customError = false): Promise<R> => await instance.get(url, params as object).then(responseBody).catch(customError ? (e) => { throw e } : errorHandler),
   post: async <B, R>(url: string, body: B): Promise<R> => await instance.post(url, body).then(responseBody).catch(errorHandler),
 }
 
@@ -27,8 +27,8 @@ export const postLogin = (body: LoginReqType) => {
   return api.post<LoginReqType, LoginResType>('/login', body)
 }
 
-export const getProductList = ({ page = 1, size = 10 }: ProductListReqType, handleError = true) => {
-  return api.get<ProductListResType>(setQueryPath('/products', { page, size }), null, handleError)
+export const getProductList = ({ page = 1, size = 10 }: ProductListReqType, customError = false) => {
+  return api.get<ProductListResType>(setQueryPath('/products', { page, size }), null, customError)
 }
 
 export const getProductDetail = (id: string) => {
