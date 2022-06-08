@@ -6,7 +6,7 @@ import { getProductList } from '../services';
 import useIntersection from '../hooks/useIntersection';
 import { GetNextPageParamFunction } from 'react-query';
 import useScrollSave from '../hooks/useScrollSave';
-import { getStorage, setStorage } from '../utilities/storage';
+import { getStorage, removeStorage, setStorage } from '../utilities/storage';
 import { AxiosError } from 'axios';
 
 const InfiniteScrollPage: GetNextPageParamFunction = () => {
@@ -24,9 +24,12 @@ const InfiniteScrollPage: GetNextPageParamFunction = () => {
   const init = async () => {    
     const savedPage: number = getStorage('productsPage', false) || 0;
     await fetchProductList(savedPage ? savedPage * 16 : 16, true)
-    if (savedPage) pageRef.current = +savedPage;
+    if (savedPage) {
+      pageRef.current = +savedPage;
+      await initScroll()
+      removeStorage('productsPage', false)
+    }
     setShowLoader(true);
-    await initScroll()
   }
 
   const fetchProductList = async (size = 16, isInit = false) => {
@@ -70,9 +73,5 @@ const Container = styled.div`
 `;
 
 const FetchLoader = styled.div`
-  position: absolute;
-  bottom: 0;
   width: 100%;
-  height: 5px;
-  border: 1px solid blue;
 `
