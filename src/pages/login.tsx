@@ -69,10 +69,10 @@ const Form = styled.div`
 `;
 
 const InputLabel = styled.p`
-  margin-top: 15px;
+  margin-top: 16px;
   color: #6c6c7d;
-  font-style: 13px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 700;
 `
 
 const LoginButton = styled.button`

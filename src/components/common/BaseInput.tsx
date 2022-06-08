@@ -78,6 +78,7 @@ const ScBaseInput = styled.div`
   p.validation-text {
     margin-top: 8px;
     font-size: 13px;
+    font-weight: 400;
     color: #ed4e5c;
   }
 `
