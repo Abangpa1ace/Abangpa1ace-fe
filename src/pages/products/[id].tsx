@@ -18,7 +18,6 @@ const ProductDetailPage: NextPage<Props> = ({ product }) => {
     (async () => {
       const { product } = await getProductDetail(query.id as string);
       setProductInfo(product);
-      console.log(productInfo)
     })();
   }, [])
 
