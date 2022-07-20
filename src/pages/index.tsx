@@ -1,51 +1,83 @@
-import Link from 'next/link';
-import type { NextPage } from 'next';
-import React from 'react';
-import styled from 'styled-components';
+/** @jsxImportSource @emotion/react */
+
+import Link from "next/link";
+import type { NextPage } from "next";
+import React from "react";
+// import styled from 'styled-components';
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+
+const flex = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+`;
+
+const mt = (value: number) =>
+  css`
+    margin-top: ${value};
+  `;
 
 const HomePage: NextPage = () => {
   return (
     <>
-      <Header>
-        <Link href='/'>
-          <Title>HAUS</Title>
+      {/* 1) Styled Components */}
+      <Header dark={!true}>
+        <Link href="/">
+          {/* 2) css Prop - Object Styles */}
+          <span
+            css={{
+              fontSize: "32px",
+              fontWeight: 700,
+            }}
+          >
+            HAUS
+          </span>
         </Link>
-        <Link href='/login'>
-          <p>login</p>
+        <Link href="/login">
+          {/* 3) css Prop - String Styles */}
+          <p
+            css={css`
+              color: #087c53;
+              font-size: 20px;
+            `}
+          >
+            login
+          </p>
         </Link>
       </Header>
-      <Container>
-        <Link href='/pagination?page=1'>
+      {/* 4) Composition */}
+      <div css={[flex, mt(40)]}>
+        <Link href="/pagination?page=1">
           <StyledLink>pagination</StyledLink>
         </Link>
-        <Link href='/infinite-scroll'>
+        <Link href="/infinite-scroll">
           <StyledLink>infinite scroll</StyledLink>
         </Link>
-      </Container>
+      </div>
     </>
   );
 };
 
 export default HomePage;
 
-const Header = styled.div`
+// 1) Styled Components
+const Header = styled.div<{ dark: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-`;
-
-const Title = styled.a`
-  font-size: 48px;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: 40px;
+  ${({ dark }) =>
+    dark
+      ? css`
+          background-color: #777;
+          color: white;
+        `
+      : css`
+          background-color: #eee;
+        `};
 `;
 
 const StyledLink = styled.a`
