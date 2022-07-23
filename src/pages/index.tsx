@@ -1,11 +1,9 @@
-/** @jsxImportSource @emotion/react */
-
 import Link from "next/link";
 import type { NextPage } from "next";
 import React from "react";
-// import styled from 'styled-components';
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
+import { css, useTheme } from "@emotion/react";
+import { bounce } from "../styles/keyframes";
 
 const flex = css`
   display: flex;
@@ -20,9 +18,22 @@ const mt = (value: number) =>
     margin-top: ${value};
   `;
 
+const mq = [1024, 768, 500].map((bp) => `@media(max-width: ${bp}px)`);
+
 const HomePage: NextPage = () => {
+  const theme: object = useTheme();
+
   return (
-    <>
+    <main
+      css={{
+        [mq[0]]: {
+          backgroundColor: `${theme.test[2]}`,
+        },
+        [mq[1]]: {
+          backgroundColor: "red",
+        },
+      }}
+    >
       {/* 1) Styled Components */}
       <Header dark={!true}>
         <Link href="/">
@@ -57,7 +68,7 @@ const HomePage: NextPage = () => {
           <StyledLink>infinite scroll</StyledLink>
         </Link>
       </div>
-    </>
+    </main>
   );
 };
 
@@ -89,6 +100,8 @@ const StyledLink = styled.a`
   background-color: #222;
   color: #fff;
   font-size: 24px;
+  // * keyframes
+  animation: ${bounce} 1s ease infinite;
 
   & + & {
     margin-top: 40px;

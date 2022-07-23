@@ -1,19 +1,25 @@
-import type { AppProps } from 'next/app';
-import styled from 'styled-components';
+import type { AppProps } from "next/app";
+import styled from "styled-components";
+import React from "react";
+import { Global, ThemeProvider } from "@emotion/react";
 
-import setupMSW from '../api/setup';
-import GlobalStyle from '../styles/GlobalStyle';
+import setupMSW from "../api/setup";
+import GlobalStyle from "../styles/GlobalStyle";
+import theme from "../styles/theme";
 
 setupMSW();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <GlobalStyle />
-      <Background />
-      <Content>
-        <Component {...pageProps} />
-      </Content>
+      <ThemeProvider theme={theme}>
+        {/* <GlobalStyle /> */}
+        <Global styles={GlobalStyle} />
+        <Background />
+        <Content>
+          <Component {...pageProps} />
+        </Content>
+      </ThemeProvider>
     </>
   );
 }

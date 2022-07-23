@@ -1,6 +1,7 @@
-import { createGlobalStyle } from 'styled-components';
+// import { createGlobalStyle } from 'styled-components';
+import { css } from "@emotion/react";
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = css`
   * {
     margin: 0;
     padding: 0;
@@ -8,7 +9,11 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
-  *, :after, :before, ::before, ::after {
+  *,
+  :after,
+  :before,
+  ::before,
+  ::after {
     box-sizing: border-box;
   }
 
@@ -21,24 +26,31 @@ const GlobalStyle = createGlobalStyle`
     word-break: break-word;
   }
 
-  html, body, #__next {
+  html,
+  body,
+  #__next {
     height: 100%;
   }
 
-  img, picture, video, svg, canvas {
+  img,
+  picture,
+  video,
+  svg,
+  canvas {
     display: block;
     max-width: 100%;
   }
 
   button,
-  [role='button'] {
+  [role="button"] {
     border: 0;
     border-radius: 0;
     background: none;
     user-select: none;
   }
 
-  ul, ol {
+  ul,
+  ol {
     list-style: none;
   }
 
@@ -46,11 +58,16 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
-  input, img, fieldset, iframe {
+  input,
+  img,
+  fieldset,
+  iframe {
     border: 0;
   }
 
-  address, em, i {
+  address,
+  em,
+  i {
     font-style: normal;
   }
 
