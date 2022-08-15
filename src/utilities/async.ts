@@ -1,0 +1,1 @@
+export const sleep = (delay = 1500) => new Promise(resolve => setTimeout(resolve, delay))
