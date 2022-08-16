@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import ProductList from "../components/ProductList";
 import Pagination from "../components/Pagination";
@@ -15,14 +15,10 @@ const PaginationPage: NextPage<Props> = (props) => {
     pageInfo: { page },
   } = usePagination();
 
-  const { data } = useCallback(
-    () =>
-      useFetchPaginatedProductList({
-        page,
-        initialData: props.productList,
-      }),
-    [page]
-  );
+  const { data } = useFetchPaginatedProductList({
+    page,
+    initialData: props.productList,
+  });
   console.log("data", data);
   return (
     <>
