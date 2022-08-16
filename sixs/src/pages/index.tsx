@@ -1,16 +1,16 @@
-import Link from 'next/link';
-import type { NextPage } from 'next';
-import React from 'react';
-import styled from 'styled-components';
+import Link from "next/link";
+import type { NextPage } from "next";
+import React from "react";
+import styled from "@emotion/styled";
 
 const HomePage: NextPage = () => {
   return (
     <>
       <Container>
-        <Link href='/pagination?page=1'>
+        <Link href="/pagination?page=1">
           <StyledLink>pagination</StyledLink>
         </Link>
-        <Link href='/infinite-scroll'>
+        <Link href="/infinite-scroll">
           <StyledLink>infinite scroll</StyledLink>
         </Link>
       </Container>
@@ -44,6 +44,6 @@ const StyledLink = styled.a`
   }
 
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 `;

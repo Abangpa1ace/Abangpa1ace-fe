@@ -1,33 +1,38 @@
-import React from 'react'
-import styled from 'styled-components'
-import Link from 'next/link';
-import { useRecoilValue } from 'recoil';
-import { userInfoAtom } from '../../recoil';
+import React from "react";
+import styled from "@emotion/styled";
+import Link from "next/link";
+import { useRecoilValue } from "recoil";
+import { userInfoAtom } from "../../recoil";
 import { useResetRecoilState } from "recoil";
 
 const Header = () => {
   const userInfo = useRecoilValue(userInfoAtom);
 
   const clearUserInfo = useResetRecoilState(userInfoAtom);
-  const logout = () => clearUserInfo()
+  const logout = () => clearUserInfo();
 
   return (
     <ScHeader>
-      <Link href='/'>
+      <Link href="/">
         <Title>HAUS</Title>
       </Link>
-      <LoginController>{!!userInfo
-        ? <div className='info'>
-            <p className='name'>{userInfo?.user.NAME}</p>
-            <p className='pointer' onClick={() => logout()}>logout</p>
+      <LoginController>
+        {!!userInfo ? (
+          <div className="info">
+            <p className="name">{userInfo?.user.NAME}</p>
+            <p className="pointer" onClick={() => logout()}>
+              logout
+            </p>
           </div>
-        : <Link href='/login'>
-            <p className='pointer'>login</p>
+        ) : (
+          <Link href="/login">
+            <p className="pointer">login</p>
           </Link>
-      }</LoginController>
+        )}
+      </LoginController>
     </ScHeader>
-  )
-}
+  );
+};
 
 const ScHeader = styled.header`
   position: absolute;
@@ -48,7 +53,7 @@ const Title = styled.a`
 const LoginController = styled.div`
   p {
     text-align: right;
-    & + p {  
+    & + p {
       margin-top: 8px;
     }
 
@@ -56,8 +61,10 @@ const LoginController = styled.div`
       font-weight: bold;
       text-decoration: underline;
     }
-    &.pointer { cursor: pointer; }
+    &.pointer {
+      cursor: pointer;
+    }
   }
 `;
 
-export default Header
+export default Header;

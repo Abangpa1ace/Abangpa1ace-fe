@@ -1,7 +1,7 @@
-import type { NextPage } from 'next';
-import Link from 'next/link';
-import React from 'react';
-import styled from 'styled-components';
+import type { NextPage } from "next";
+import Link from "next/link";
+import React from "react";
+import styled from "@emotion/styled";
 
 const NotFoundPage: NextPage = () => {
   return (
@@ -25,4 +25,4 @@ const Container = styled.div`
   }
 `;
 
-export default NotFoundPage
+export default NotFoundPage;

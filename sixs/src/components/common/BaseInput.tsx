@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import useInput from '../../hooks/useInput'
-import validate from '../../constants/validate';
+import React, { useEffect } from "react";
+import styled from "@emotion/styled";
+import useInput from "../../hooks/useInput";
+import validate from "../../constants/validate";
 
 type Props = {
   name: string;
@@ -10,21 +10,26 @@ type Props = {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
-}
+};
 
 export type UpdateForm = {
-  name: string,
-  value: string,
-}
+  name: string;
+  value: string;
+};
 
 export type UpdateFormValid = {
-  name: string,
-  valid: boolean,
-}
+  name: string;
+  valid: boolean;
+};
 
-const BaseInput: React.FC<Props> = ({ updateValue, updateValid, name, placeholder, disabled, className }, ref) => {
-  const { value, onChange, valid, showValid, setShowValid } = useInput({ name });
-  const validateInfo = validate[name as string] ?? {}
+const BaseInput: React.FC<Props> = (
+  { updateValue, updateValid, name, placeholder, disabled, className },
+  ref
+) => {
+  const { value, onChange, valid, showValid, setShowValid } = useInput({
+    name,
+  });
+  const validateInfo = validate[name as string] ?? {};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e);
@@ -33,16 +38,20 @@ const BaseInput: React.FC<Props> = ({ updateValue, updateValid, name, placeholde
   };
 
   useEffect(() => {
-    updateValid({ name, valid })
-  }, [valid])
+    updateValid({ name, valid });
+  }, [valid]);
 
   const handleBlur = () => {
     if (!showValid) setShowValid(true);
-  }
+  };
 
   return (
-    <ScBaseInput className={`${className} ${disabled ? 'disabled' : ''} ${valid ? 'valid' : ''}`}>
-      <input 
+    <ScBaseInput
+      className={`${className} ${disabled ? "disabled" : ""} ${
+        valid ? "valid" : ""
+      }`}
+    >
+      <input
         value={value}
         name={name}
         type={validateInfo.type}
@@ -51,13 +60,14 @@ const BaseInput: React.FC<Props> = ({ updateValue, updateValid, name, placeholde
         onChange={handleChange}
         disabled={disabled}
         onBlur={handleBlur}
-        className={showValid && !valid ? 'error' : ''}
+        className={showValid && !valid ? "error" : ""}
       />
-      {showValid && !valid && 
-        <p className='validation-text'>{`올바른 ${validateInfo.name} 형식으로 입력해주세요.`}</p>}
+      {showValid && !valid && (
+        <p className="validation-text">{`올바른 ${validateInfo.name} 형식으로 입력해주세요.`}</p>
+      )}
     </ScBaseInput>
-  )
-}
+  );
+};
 
 const ScBaseInput = styled.div`
   &.error {
@@ -81,6 +91,6 @@ const ScBaseInput = styled.div`
     font-weight: 400;
     color: #ed4e5c;
   }
-`
+`;
 
-export default BaseInput
+export default BaseInput;

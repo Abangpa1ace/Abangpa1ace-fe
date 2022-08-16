@@ -7,7 +7,6 @@ type Options = {
 };
 
 const useFetchPaginatedProductList = ({ page, initialData }: Options) => {
-  console.log("fetch");
   return useQuery(["products"], () => getProductList({ page }), {
     initialData,
   });

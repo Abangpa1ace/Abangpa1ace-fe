@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "@emotion/styled";
 
-import { Product } from '../types/product';
-import ProductItem from './ProductItem';
+import { Product } from "../types/product";
+import ProductItem from "./ProductItem";
 
 type ProductListProps = {
   products: Product[];
@@ -12,16 +12,20 @@ type ProductListProps = {
 const ProductList = ({ products, beforeRouteItem }: ProductListProps) => (
   <Container>
     {products?.map((product, idx) => (
-      <ProductItem key={`${product.id}-${product.name}-${idx}`} product={product} beforeRoute={beforeRouteItem} />
+      <ProductItem
+        key={`${product.id}-${product.name}-${idx}`}
+        product={product}
+        beforeRoute={beforeRouteItem}
+      />
     ))}
   </Container>
 );
 
 function compareProps(prev: ProductListProps, next: ProductListProps) {
-  return prev.products.length === next.products.length
+  return prev.products.length === next.products.length;
 }
 
-export default React.memo(ProductList, compareProps)
+export default React.memo(ProductList, compareProps);
 
 export const Container = styled.div`
   display: flex;

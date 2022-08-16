@@ -1,11 +1,9 @@
 import type { NextPage } from "next";
-import React, { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
-import styled from "styled-components";
+import React, { useCallback, useEffect } from "react";
+import styled from "@emotion/styled";
 import ProductList from "../components/ProductList";
 import Pagination from "../components/Pagination";
 import usePagination from "../hooks/usePagination";
-import { getProductList } from "../services";
 import useFetchPaginatedProductList from "../hooks/queries/useFetchPaginatedProductList";
 
 type Props = {
@@ -13,16 +11,19 @@ type Props = {
 };
 
 const PaginationPage: NextPage<Props> = (props) => {
-  const total = useRef<number>(105);
   const {
     pageInfo: { page },
   } = usePagination();
 
-  const { data } = useFetchPaginatedProductList({
-    page,
-    initialData: props.productList,
-  });
-
+  const { data } = useCallback(
+    () =>
+      useFetchPaginatedProductList({
+        page,
+        initialData: props.productList,
+      }),
+    [page]
+  );
+  console.log("data", data);
   return (
     <>
       <Container>

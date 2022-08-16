@@ -1,19 +1,19 @@
-import Link from 'next/link';
-import type { NextPage } from 'next';
-import React from 'react';
-import styled from 'styled-components';
+import Link from "next/link";
+import type { NextPage } from "next";
+import React from "react";
+import styled from "@emotion/styled";
 
-import products from '../api/data/products.json';
-import ProductList from '../components/ProductList';
+import products from "../api/data/products.json";
+import ProductList from "../components/ProductList";
 
 const InfiniteScrollPage: NextPage = () => {
   return (
     <>
       <Header>
-        <Link href='/'>
+        <Link href="/">
           <Title>HAUS</Title>
         </Link>
-        <Link href='/login'>
+        <Link href="/login">
           <p>login</p>
         </Link>
       </Header>

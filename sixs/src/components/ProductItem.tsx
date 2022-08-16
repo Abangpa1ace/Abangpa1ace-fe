@@ -1,31 +1,38 @@
 import Image from "next/image";
-import styled from 'styled-components';
-import { useRouter } from 'next/router';
-import { Product } from '../types/product';
+import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { Product } from "../types/product";
 
 type ProductItemProps = {
   product: Product;
   beforeRoute?: () => void;
 };
 
-const ProductItem = ({ product: { id, name, thumbnail, price }, beforeRoute }: ProductItemProps) => {
+const ProductItem = ({
+  product: { id, name, thumbnail, price },
+  beforeRoute,
+}: ProductItemProps) => {
   const { push } = useRouter();
   const routeDetail = () => {
     if (beforeRoute) beforeRoute();
-    push(`/products/${id}`)
-  }
+    push(`/products/${id}`);
+  };
 
   return (
     <Container onClick={routeDetail}>
       <Thumbnail>
-        <Image src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} width={180} height={180} loading="lazy" />
+        <Image
+          src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"}
+          width={180}
+          height={180}
+          loading="lazy"
+        />
       </Thumbnail>
       <Name>{name}</Name>
       <Price>{price.toLocaleString()}</Price>
     </Container>
-  )
-}
-
+  );
+};
 
 export default ProductItem;
 
@@ -37,11 +44,11 @@ const Container = styled.div`
 
   &:hover {
     background-color: #f4f4f4;
-    transition: background .3s ease;
+    transition: background 0.3s ease;
 
     img {
       transform: scale(1.05);
-      transition: transform .3s ease;
+      transition: transform 0.3s ease;
     }
   }
 `;

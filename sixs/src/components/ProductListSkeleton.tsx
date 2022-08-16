@@ -1,31 +1,31 @@
-import React from 'react'
-import type { NextPage } from 'next';
-import styled from 'styled-components'
+import React from "react";
+import type { NextPage } from "next";
+import styled from "@emotion/styled";
 
 type Props = {
   size?: number;
-}
+};
 
 const ProductListSkeleton: NextPage<Props> = ({ size = 10 }) => {
   return (
     <ScProductListSkeleton>
-      {new Array(size).fill(null).map((_,i) => 
-        <ItemSkeleton key={'skeleton-' + i}>
-          <div className='img' />
-          <div className='name' />
-          <div className='price' />
+      {new Array(size).fill(null).map((_, i) => (
+        <ItemSkeleton key={"skeleton-" + i}>
+          <div className="img" />
+          <div className="name" />
+          <div className="price" />
         </ItemSkeleton>
-      )}
+      ))}
     </ScProductListSkeleton>
-  )
-}
+  );
+};
 
 const ScProductListSkeleton = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 400px;
   margin-left: -20px;
-`
+`;
 
 const ItemSkeleton = styled.div`
   width: 180px;
@@ -48,6 +48,6 @@ const ItemSkeleton = styled.div`
       height: 19px;
     }
   }
-`
+`;
 
-export default ProductListSkeleton
+export default ProductListSkeleton;

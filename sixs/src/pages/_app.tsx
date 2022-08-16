@@ -1,9 +1,9 @@
-import type { AppProps } from 'next/app';
-import styled from 'styled-components';
-import { RecoilRoot } from 'recoil';
-import setupMSW from '../api/setup';
-import GlobalStyle from '../styles/GlobalStyle';
-import Header from '../components/common/Header';
+import type { AppProps } from "next/app";
+import styled from "@emotion/styled";
+import { RecoilRoot } from "recoil";
+import setupMSW from "../api/setup";
+import GlobalStyle from "../styles/GlobalStyle";
+import Header from "../components/common/Header";
 
 setupMSW();
 
@@ -14,8 +14,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Background />
       <Content>
         <RecoilRoot>
-        <Header />
-        <Component {...pageProps} />
+          <Header />
+          <Component {...pageProps} />
         </RecoilRoot>
       </Content>
     </>

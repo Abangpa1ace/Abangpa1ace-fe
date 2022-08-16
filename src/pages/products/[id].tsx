@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import type { NextPage } from 'next';
-import React from 'react';
-import styled from 'styled-components';
+import Link from "next/link";
+import type { NextPage } from "next";
+import React from "react";
+import styled from "@emotion/styled";
 
-import products from '../../api/data/products.json';
+import products from "../../api/data/products.json";
 
 const ProductDetailPage: NextPage = () => {
   const product = products[0];
@@ -11,14 +11,16 @@ const ProductDetailPage: NextPage = () => {
   return (
     <>
       <Header>
-        <Link href='/'>
+        <Link href="/">
           <Title>HAUS</Title>
         </Link>
-        <Link href='/login'>
+        <Link href="/login">
           <p>login</p>
         </Link>
       </Header>
-      <Thumbnail src={product.thumbnail ? product.thumbnail : '/defaultThumbnail.jpg'} />
+      <Thumbnail
+        src={product.thumbnail ? product.thumbnail : "/defaultThumbnail.jpg"}
+      />
       <ProductInfoWrapper>
         <Name>{product.name}</Name>
         <Price>{product.price}원</Price>

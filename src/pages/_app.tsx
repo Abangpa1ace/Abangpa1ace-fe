@@ -3,6 +3,7 @@ import styled from "styled-components";
 import React from "react";
 import { Global, ThemeProvider } from "@emotion/react";
 import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import setupMSW from "../api/setup";
 import GlobalStyle from "../styles/GlobalStyle";
@@ -23,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Content>
       </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
 }

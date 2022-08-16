@@ -1,14 +1,14 @@
 import Image from "next/image";
-import type { NextPage, NextPageContext } from 'next';
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
+import type { NextPage, NextPageContext } from "next";
+import React, { useEffect, useState } from "react";
+import styled from "@emotion/styled";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { getProductDetail } from "../../services";
 
 type Props = {
   product: ProductType;
-}
+};
 
 const ProductDetailPage: NextPage<Props> = ({ product }) => {
   const { query } = useRouter();
@@ -19,12 +19,20 @@ const ProductDetailPage: NextPage<Props> = ({ product }) => {
       const { product } = await getProductDetail(query.id as string);
       setProductInfo(product);
     })();
-  }, [])
+  }, []);
 
   return (
     <section>
       <Thumbnail>
-        <Image src={productInfo?.thumbnail ? productInfo?.thumbnail : '/defaultThumbnail.jpg'} width={420} height={420} />
+        <Image
+          src={
+            productInfo?.thumbnail
+              ? productInfo?.thumbnail
+              : "/defaultThumbnail.jpg"
+          }
+          width={420}
+          height={420}
+        />
       </Thumbnail>
       <ProductInfoWrapper>
         <Name>{productInfo?.name}</Name>
@@ -40,8 +48,8 @@ export async function getServerSideProps(context: NextPageContext) {
   // SSR을 적용해야하나, msw 관련인지 페이지 빌드 실패
   // const res = await axios.get(`/products/${context.params}`)
   // const data = res.data
-  
-  return { props: { products: {} } }
+
+  return { props: { products: {} } };
 }
 
 const Thumbnail = styled.div`
