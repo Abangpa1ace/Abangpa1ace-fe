@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { Product } from '../types/product';
-import ProductItem from './ProductItem';
+import { Product } from "../types/product";
+import ProductItem from "./ProductItem";
 
 type ProductListProps = {
   products: Product[];

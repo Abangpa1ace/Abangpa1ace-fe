@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import styled from "styled-components";
 import React from "react";
 import { Global, ThemeProvider } from "@emotion/react";
+import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
 
 import setupMSW from "../api/setup";
 import GlobalStyle from "../styles/GlobalStyle";
@@ -10,8 +11,10 @@ import theme from "../styles/theme";
 setupMSW();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [queryClient] = React.useState(() => new QueryClient());
+
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         {/* <GlobalStyle /> */}
         <Global styles={GlobalStyle} />
@@ -20,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Content>
       </ThemeProvider>
-    </>
+    </QueryClientProvider>
   );
 }
 

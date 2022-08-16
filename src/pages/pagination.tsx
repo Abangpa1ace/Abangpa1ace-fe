@@ -1,39 +1,33 @@
 import type { NextPage } from "next";
 import React, { useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 import ProductList from "../components/ProductList";
 import Pagination from "../components/Pagination";
 import usePagination from "../hooks/usePagination";
 import { getProductList } from "../services";
+import useFetchPaginatedProductList from "../hooks/queries/useFetchPaginatedProductList";
 
 type Props = {
-  products: ProductType[];
-  totalCount: number;
+  productList: ProductListResType;
 };
 
-const PaginationPage: NextPage<Props> = ({ products, totalCount }) => {
-  const total = useRef<number>(totalCount);
+const PaginationPage: NextPage<Props> = (props) => {
+  const total = useRef<number>(105);
   const {
     pageInfo: { page },
   } = usePagination();
-  const [productList, setProductList] = useState<ProductType[]>(products);
 
-  useEffect(() => {
-    fetchProductList();
-  }, [page]);
-
-  const fetchProductList = async () => {
-    const { products, totalCount } = await getProductList({ page });
-    setProductList(products);
-    if (!productList.length || total.current !== totalCount)
-      total.current = totalCount;
-  };
+  const { data } = useFetchPaginatedProductList({
+    page,
+    initialData: props.productList,
+  });
 
   return (
     <>
       <Container>
-        <ProductList products={productList} />
-        <Pagination totalCount={total.current} />
+        <ProductList products={data?.products || []} />
+        <Pagination totalCount={data?.totalCount || 0} />
       </Container>
     </>
   );
@@ -41,14 +35,10 @@ const PaginationPage: NextPage<Props> = ({ products, totalCount }) => {
 
 export default PaginationPage;
 
-export async function getServerSideProps() {
-  // SSR을 적용해야하나, msw 관련인지 페이지 빌드 실패
-  // const res = await axios.get('http://localhost:3000/products?page=1&size=10')
-  const res = { data: { products: [], totalCount: 105 } };
-  const data = res.data;
-
-  return { props: { ...data } };
-}
+// export async function getServerSideProps() {
+//   const productList = await getProductList({ page: 1 });
+//   return { props: { productList } };
+// }
 
 const Container = styled.div`
   display: flex;
