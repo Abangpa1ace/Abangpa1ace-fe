@@ -32,4 +32,5 @@ type ProductType = {
 type ProductListResType = {
   products: ProductType[];
   totalCount: number;
+  nextCursor?: number;
 }

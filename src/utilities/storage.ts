@@ -1,4 +1,4 @@
-type storageValue = string | number | symbol | object;
+type storageValue = string | number | symbol | object | undefined;
 
 export const setStorage = (key: string, value: storageValue, isLocal = true): void => {
   if (!value) throw 'None Value'

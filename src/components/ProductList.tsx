@@ -1,25 +1,36 @@
-import styled from "styled-components";
+import React from "react";
+import styled from "@emotion/styled";
 
 import { Product } from "../types/product";
 import ProductItem from "./ProductItem";
 
 type ProductListProps = {
   products: Product[];
+  beforeRouteItem?: () => void;
 };
 
-const ProductList = ({ products }: ProductListProps) => (
+const ProductList = ({ products, beforeRouteItem }: ProductListProps) => (
   <Container>
-    {products.map((product) => (
-      <ProductItem key={product.id} product={product} />
+    {products?.map((product, idx) => (
+      <ProductItem
+        key={`${product.id}-${product.name}-${idx}`}
+        product={product}
+        beforeRoute={beforeRouteItem}
+      />
     ))}
   </Container>
 );
 
-export default ProductList;
+function compareProps(prev: ProductListProps, next: ProductListProps) {
+  return prev.products.length === next.products.length;
+}
 
-const Container = styled.div`
+export default React.memo(ProductList, compareProps);
+
+export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 400px;
+  min-height: calc(100vh - 90px);
   margin-left: -20px;
 `;

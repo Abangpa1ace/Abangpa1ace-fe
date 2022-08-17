@@ -7,8 +7,9 @@ type Options = {
 };
 
 const useFetchPaginatedProductList = ({ page, initialData }: Options) => {
-  return useQuery(["products"], () => getProductList({ page }), {
+  return useQuery(["paginated-products", page], () => getProductList({ page }), {
     initialData,
+    enabled: page > 0,
   });
 };
 

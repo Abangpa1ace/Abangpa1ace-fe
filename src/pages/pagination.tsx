@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import ProductList from "../components/ProductList";
 import Pagination from "../components/Pagination";
@@ -19,7 +18,7 @@ const PaginationPage: NextPage<Props> = (props) => {
     page,
     initialData: props.productList,
   });
-  console.log("data", data);
+
   return (
     <>
       <Container>

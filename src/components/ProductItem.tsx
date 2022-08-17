@@ -1,32 +1,67 @@
+import Image from "next/image";
 import styled from "@emotion/styled";
-
+import { useRouter } from "next/router";
 import { Product } from "../types/product";
 
 type ProductItemProps = {
   product: Product;
+  beforeRoute?: () => void;
 };
 
 const ProductItem = ({
-  product: { name, thumbnail, price },
-}: ProductItemProps) => (
-  <Container>
-    <Thumbnail src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"} />
-    <Name>{name}</Name>
-    <Price>{price}</Price>
-  </Container>
-);
+  product: { id, name, thumbnail, price },
+  beforeRoute,
+}: ProductItemProps) => {
+  const { push } = useRouter();
+  const routeDetail = () => {
+    if (beforeRoute) beforeRoute();
+    push(`/products/${id}`);
+  };
+
+  return (
+    <Container onClick={routeDetail}>
+      <Thumbnail>
+        <Image
+          src={thumbnail ? thumbnail : "/defaultThumbnail.jpg"}
+          width={180}
+          height={180}
+          loading="lazy"
+        />
+      </Thumbnail>
+      <Name>{name}</Name>
+      <Price>{price.toLocaleString()}</Price>
+    </Container>
+  );
+};
 
 export default ProductItem;
 
-const Container = styled.a`
+const Container = styled.div`
   width: 180px;
   margin-left: 20px;
   margin-top: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f4f4f4;
+    transition: background 0.3s ease;
+
+    img {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+  }
 `;
 
-const Thumbnail = styled.img`
+const Thumbnail = styled.div`
   width: 100%;
   height: 180px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Name = styled.div`

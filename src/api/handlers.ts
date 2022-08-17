@@ -58,6 +58,7 @@ export const handlers = [
           data: {
             products: filteredProducts,
             totalCount: products.length,
+            nextCursor: +page * +size < products.length ? +page + 1 : null
           }
         }),
       );
