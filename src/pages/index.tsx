@@ -11,10 +11,12 @@ const flex = css`
   justify-content: center;
   align-items: center;
   height: 90vh;
+  border: 2px solid blue;
 `;
 
 const mt = (value: number) =>
   css`
+    border: 2px solid green;
     margin-top: ${value};
   `;
 
@@ -27,7 +29,7 @@ const HomePage: NextPage = () => {
     <main
       css={{
         [mq[0]]: {
-          backgroundColor: `${theme.test[2]}`,
+          backgroundColor: `${theme.color[2]}`,
         },
         [mq[1]]: {
           backgroundColor: "red",
