@@ -1,5 +1,5 @@
 export default {
-  test: {
+  color: {
     1: "red",
     2: "blue",
   },

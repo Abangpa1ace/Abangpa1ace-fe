@@ -30,10 +30,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/infinite-scroll": [
+    "/login": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/infinite-scroll.js"
+      "static/chunks/pages/login.js"
     ]
   },
   "ampFirstPages": []

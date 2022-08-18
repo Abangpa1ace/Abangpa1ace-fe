@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import setupMSW from "../api/setup";
 import GlobalStyle from "../styles/GlobalStyle";
 import theme from "../styles/theme";
+import Header from "../components/common/Header";
 
 setupMSW();
 
@@ -21,6 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Global styles={GlobalStyle} />
         <Background />
         <Content>
+          {/* <Header /> */}
           <Component {...pageProps} />
         </Content>
       </ThemeProvider>
