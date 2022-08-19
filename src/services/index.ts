@@ -24,7 +24,7 @@ const api = {
 }
 
 export const postLogin = (body: LoginReqType) => {
-  return axios.post('/login', body)
+  return api.post('/login', body)
 }
 
 export const getUsersData = (id: string) => {

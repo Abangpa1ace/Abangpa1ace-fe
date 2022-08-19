@@ -6,7 +6,9 @@ export const useLogin = () => {
   return useMutation<LoginResType, AxiosError>(postLogin, {
     // onMutate: (variables) => console.log(variables),
     onSuccess: (data) => {
-      console.log('login', data)
+      const userId = data?.user.ID
+      const { data: userInfo } = useGetUserInfo(userId, !!userId)
+      console.log(userInfo)
     },
     onError: (err) => {
       console.error(err)
@@ -14,6 +16,6 @@ export const useLogin = () => {
   })
 }
 
-export const useGetUserInfo = (id: string) => {
-  return useQuery(['user-info', id], () => getUsersData(id))
+export const useGetUserInfo = (id: string, enabled = true) => {
+  return useQuery(['user-info', id], () => getUsersData(id), { enabled })
 }
