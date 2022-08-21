@@ -6,16 +6,12 @@ import BaseInput, {
   UpdateForm,
   UpdateFormValid,
 } from "../components/common/BaseInput";
-import { getUsersData } from "../services";
-import { useLogin } from "../hooks/queries/useFetchLogin";
-// import { useRecoilState } from "recoil";
-// import { userInfoAtom } from "../recoil";
+import { useGetUserInfo, usePostLogin } from "../hooks/queries/useFetchLogin";
 
 type LoginValidType = { [K in keyof LoginReqType]: boolean };
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  // const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
   const [loginForm, setLoginForm] = useState<LoginReqType>({
     id: "",
     password: "",
@@ -26,14 +22,15 @@ const LoginPage: NextPage = () => {
   });
   const isComplete = Object.values(loginValid).every((is) => is);
 
-  const { mutate } = useLogin();
-  // useEffect(() => {
-  //   alreadyLogin();
-  // }, []);
+  const { mutate, data: accessData } = usePostLogin();
+  const { data: userData } = useGetUserInfo(
+    accessData?.user.ID || "",
+    !!accessData
+  );
 
-  // const alreadyLogin = () => {
-  //   if (!!userInfo) router.replace("/");
-  // };
+  useEffect(() => {
+    if (!!userData) router.push("/");
+  }, [userData]);
 
   const updateForm = ({ name, value }: UpdateForm) => {
     setLoginForm((prev) => ({ ...prev, [name]: value }));
@@ -43,12 +40,9 @@ const LoginPage: NextPage = () => {
     setLoginValid((prev) => ({ ...prev, [name]: valid }));
   };
 
-  const submitForm = async () => {
+  const submitForm = () => {
     if (!isComplete) return alert("아이디와 비밀번호를 재확인해주세요!");
     mutate(loginForm);
-    // const userData = await getUsersData(res.user.ID);
-    // setUserInfo({ ...res, userData });
-    // return router.push("/");
   };
 
   return (

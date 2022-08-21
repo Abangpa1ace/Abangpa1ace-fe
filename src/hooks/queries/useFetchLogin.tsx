@@ -1,11 +1,14 @@
-import { AxiosError } from "axios";
-import { useQuery, useMutation } from "react-query";
+import { Axios, AxiosError } from "axios";
+import { useQuery, useMutation, QueryClient } from "react-query";
 import { getUsersData, postLogin } from "../../services";
 
-export const useLogin = () => {
-  return useMutation<LoginResType, AxiosError>(postLogin, {
-    // onMutate: (variables) => console.log(variables),
-    onSuccess: (data) => {},
+const queryClient = new QueryClient();
+
+export const usePostLogin = () => {
+  return useMutation<LoginResType, AxiosError, LoginReqType>(postLogin, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["user-info", data.user.ID]);
+    },
     onError: (err) => {
       console.error(err);
     },
@@ -13,5 +16,11 @@ export const useLogin = () => {
 };
 
 export const useGetUserInfo = (id: string, enabled = true) => {
-  return useQuery(["user-info", id], () => getUsersData(id), { enabled });
+  return useQuery<UserInfoType, AxiosError>(
+    ["user-info", id],
+    () => getUsersData(id),
+    {
+      enabled,
+    }
+  );
 };
