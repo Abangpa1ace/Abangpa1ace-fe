@@ -26,7 +26,7 @@ const LoginPage: NextPage = () => {
   });
   const isComplete = Object.values(loginValid).every((is) => is);
 
-  const { mutate: postLogin } = useLogin();
+  const { mutate } = useLogin();
   // useEffect(() => {
   //   alreadyLogin();
   // }, []);
@@ -45,7 +45,7 @@ const LoginPage: NextPage = () => {
 
   const submitForm = async () => {
     if (!isComplete) return alert("아이디와 비밀번호를 재확인해주세요!");
-    postLogin(loginForm);
+    mutate(loginForm);
     // const userData = await getUsersData(res.user.ID);
     // setUserInfo({ ...res, userData });
     // return router.push("/");

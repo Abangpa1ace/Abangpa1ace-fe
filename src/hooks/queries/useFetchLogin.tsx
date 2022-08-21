@@ -1,21 +1,17 @@
-import { AxiosError } from 'axios'
-import { useQuery, useMutation} from 'react-query'
-import { getUsersData, postLogin } from '../../services'
+import { AxiosError } from "axios";
+import { useQuery, useMutation } from "react-query";
+import { getUsersData, postLogin } from "../../services";
 
 export const useLogin = () => {
   return useMutation<LoginResType, AxiosError>(postLogin, {
     // onMutate: (variables) => console.log(variables),
-    onSuccess: (data) => {
-      const userId = data?.user.ID
-      const { data: userInfo } = useGetUserInfo(userId, !!userId)
-      console.log(userInfo)
-    },
+    onSuccess: (data) => {},
     onError: (err) => {
-      console.error(err)
-    }
-  })
-}
+      console.error(err);
+    },
+  });
+};
 
 export const useGetUserInfo = (id: string, enabled = true) => {
-  return useQuery(['user-info', id], () => getUsersData(id), { enabled })
-}
+  return useQuery(["user-info", id], () => getUsersData(id), { enabled });
+};
