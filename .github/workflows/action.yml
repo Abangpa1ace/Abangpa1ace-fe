@@ -22,27 +22,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-    - name: Set Tag Name
-      id: tag
-      env:
-        MRT_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')
-        HOTFIX_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')-$(TZ=UTC-9 date +'%H%M')
-      run: |
-        if [ ${{ github.event.inputs.input_tag == '' }} ]; then
-          # 태그명 미작성 - myrealtrip(정기) or hotfix(핫픽스)
-          echo "::set-output name=name::${{ github.event.inputs.input_deploy == 'myrealtrip' && env.MRT_TAG || env.HOTFIX_TAG }}"
-        else
-          # 태그명 직접 작성
-          echo "::set-output name=name::${{ github.event.inputs.input_tag }}"
-        fi
-    
-    - name: Create Release
+    - name: Create Tag
       uses: actions/github-script@v5
+      env:
+        TAG_NAME: ${{ github.event.inputs.deploy_type }}-$(TZ=UTC-9 date +'%Y%m%d%H%M')
       with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/${{ steps.tag.outputs.name }}",
-              sha: context.sha
-            })
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: "refs/tags/${{ env.TAG_NAME }}",
+            sha: context.sha
+          })
