@@ -32,13 +32,13 @@ jobs:
         MRT_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')
         HOTFIX_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')-$(TZ=UTC-9 date +'%H%M')
       run: |
-        if [ true ]; then
+        if [ ${{ github.event.inputs.input_tag }} ]; then
           # 태그명 직접 작성
           echo "::set-output name=name::${{ github.event.inputs.input_tag }}"
         else
           # 태그명 미작성 - myrealtrip(정기) or hotfix(핫픽스)
-          # echo "::set-output name=name::${{ github.event.inputs.input_deploy == 'myrealtrip' && env.MRT_TAG || env.HOTFIX_TAG }}"
-          echo "::set-output name=name::${{ ${{ github.event.inputs.input_deploy }}${{ github.event.inputs.input_deploy == 'hotfix' && TZ=UTC-9 date +'%H%M' || '' }}"
+          echo "::set-output name=name::${{ github.event.inputs.input_deploy == 'myrealtrip' && env.MRT_TAG || env.HOTFIX_TAG }}"
+          # echo "::set-output name=name::${{ ${{ github.event.inputs.input_deploy }}${{ github.event.inputs.input_deploy == 'hotfix' && TZ=UTC-9 date +'%H%M' || '' }}"
         fi
     
     - name: Create Release
