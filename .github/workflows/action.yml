@@ -20,7 +20,7 @@ jobs:
     # Set tag name by auto or input
     - name: Get tag datetime
       id: tag_datetime
-      run: echo "::set-output name=name::$(TZ=UTC-9 date +'%Y%m%d%H%M')
+      run: echo "::set-output name=name::$(TZ=UTC-9 date +'%Y%m%d%H%M')"
 
     # Create tag on present commit
     - name: Create Tag
