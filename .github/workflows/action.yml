@@ -22,19 +22,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-#     - name: Get current date
-#       id: date
-#       run: |
-#         echo "::set-output name=datetime::$(TZ=UTC-9 date +'%Y-%m-%d %H:%M:%S')"
-#         echo "::set-output name=date::$(TZ=UTC-9 date +'%Y%m%d')"
-#         echo "::set-output name=time::$(TZ=UTC-9 date +'%H%M')"
-      
     - name: Get current date
       id: date
-      with: |
-        datetime: $(TZ=UTC-9 date +'%Y-%m-%d %H:%M:%S')
-        date: $(TZ=UTC-9 date +'%Y%m%d')
-        time: $(TZ=UTC-9 date +'%H%M')
+      run: |
+        echo "::set-output name=datetime::$(TZ=UTC-9 date +'%Y-%m-%d %H:%M:%S')"
+        echo "::set-output name=date::$(TZ=UTC-9 date +'%Y%m%d')"
+        echo "::set-output name=time::$(TZ=UTC-9 date +'%H%M')"
       
     
     - name: Set Tag Name
@@ -43,7 +36,6 @@ jobs:
         MRT_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}
         HOTFIX_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}-${{ steps.date.outputs.time }}
       run: |
-        echo "${{ steps.date }}"
         if [ ${{github.event.inputs.input_tag }} ]; then
           # 태그명 직접 작성
           echo "::set-output name=name::${{ github.event.inputs.input_tag }}"
