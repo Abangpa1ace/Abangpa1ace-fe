@@ -1,4 +1,4 @@
-name: Build Production (${{ github.event.inputs.input_deploy }})
+name: Build Production
 
 on:
   workflow_dispatch:
