@@ -23,7 +23,7 @@ jobs:
       id: create_release
       uses: actions/github-script@v5
       env:
-        TAG_NAME: ${{ github.event.inputs.deploy_tag | github.event.inputs.deploy_type }}
+        TAG_NAME: ${{ github.event.inputs.deploy_tag || github.event.inputs.deploy_type }}
       with:
           script: |
             github.rest.git.createRef({
