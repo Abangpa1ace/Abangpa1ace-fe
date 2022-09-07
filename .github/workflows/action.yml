@@ -26,7 +26,7 @@ jobs:
     - name: Set Tag Name
       id: tag
       env:
-        AUTO_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}${{ github.event.inputs.input_deploy == 'hotfix' && "-${{ steps.date.outputs.date }}" || '' }}
+        AUTO_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}${{ github.event.inputs.input_deploy == 'hotfix' && '-${{ steps.date.outputs.date }}' || '' }}
       run: |
         if [ ${{github.event.inputs.input_tag }} ]; then
           # 태그명 직접 작성
