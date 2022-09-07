@@ -10,9 +10,9 @@ on:
         options:
           - myrealtrip
           - hotfix
-      input_hotfix_count:
-        description: "핫픽스인 경우 횟수를 입력해주세요."
-        default: "1"
+#       input_hotfix_count:
+#         description: "핫픽스인 경우 횟수를 입력해주세요."
+#         default: "1"
       input_tag:
         description: "태그명을 직접 작성할 경우 입력해주세요."
 
@@ -33,7 +33,7 @@ jobs:
     - name: Set Tag Name
       id: tag
       env:
-        MRT_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}
+        MRT_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')
         HOTFIX_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}-${{ steps.date.outputs.time }}
       run: |
         if [ ${{github.event.inputs.input_tag }} ]; then
