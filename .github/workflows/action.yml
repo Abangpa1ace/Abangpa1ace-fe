@@ -32,7 +32,7 @@ jobs:
         MRT_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')
         HOTFIX_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')-$(TZ=UTC-9 date +'%H%M')
       run: |
-        if [ ${{github.event.inputs.input_tag }} ]; then
+        if [ ${{ github.event.inputs.input_tag }} ]; then
           # 태그명 직접 작성
           echo "::set-output name=name::${{ github.event.inputs.input_tag }}"
         else
