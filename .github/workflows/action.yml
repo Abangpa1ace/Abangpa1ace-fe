@@ -17,6 +17,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
+    # Set tag name by auto or input
+    - name: Set Release Tag
+      id: tag
+      env:
+        MRT_TAG: ${{ github.event.inputs.deploy_type }}-$(TZ=UTC-9 date +'%Y%m%d%H%M')
+      run: echo "::set-output name=name::${{ env.MRT_TAG }}
+
+    # Create tag on present commit
     - name: Create Tag
       uses: actions/github-script@v5
       env:
@@ -26,6 +34,6 @@ jobs:
           github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            ref: "refs/tags/${{ env.TAG_NAME }}",
+            ref: "refs/tags/${{ steps.tag.outputs.name }}",
             sha: context.sha
           })
