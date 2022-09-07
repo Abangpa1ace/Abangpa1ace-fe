@@ -36,6 +36,7 @@ jobs:
           # 태그명 미작성 - myrealtrip(정기)
           echo "::set-output name=name::${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}"
         fi
+      shell: bash
     
     - name: Create Release
       uses: actions/github-script@v5
