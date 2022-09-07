@@ -10,6 +10,9 @@ on:
         options:
           - myrealtrip
           - hotfix
+      input_hotfix_count:
+        description: "핫픽스인 경우 횟수를 입력해주세요."
+        default: "1"
       input_tag:
         description: "태그명을 직접 작성할 경우 입력해주세요."
 
@@ -26,14 +29,15 @@ jobs:
     - name: Set Tag Name
       id: tag
       env:
-        AUTO_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}${{ github.event.inputs.input_deploy == 'hotfix' && -steps.date.outputs.date || '' }}
+        MRT_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}
+        HOTFIX_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}-${{ github.event.inputs.input_hotfix_count }}
       run: |
         if [ ${{github.event.inputs.input_tag }} ]; then
           # 태그명 직접 작성
           echo "::set-output name=name::${{ github.event.inputs.input_tag }}"
         else
-          # 태그명 미작성 - hotfix(핫픽스) or myrealtrip(정기)
-          echo "::set-output name=name::${{ env.AUTO_TAG }}"
+          # 태그명 미작성 - myrealtrip(정기) or hotfix(핫픽스)
+          echo "::set-output name=name::${{ github.event.inputs.input_deploy == 'myrealtrip' && env.MRT_TAG || HOTFIX_TAG }}"
         fi
     
     - name: Create Release
