@@ -3,14 +3,14 @@ name: Github Action Test
 on:
   workflow_dispatch:
     inputs:
-      deploy_type:
+      input_deploy:
         type: choice
         required: true
         description: "정기배포 여부를 선택해주세요."
         options:
           - myrealtrip
           - hotfix
-      deploy_tag:
+      input_tag:
         description: "태그명을 직접 작성할 경우 입력해주세요."
 
 jobs:
@@ -26,10 +26,15 @@ jobs:
     - name: Set Tag Name
       id: tag
       run: |
-        if [ ${{ github.event.inputs.deploy_tag }} ]; then
-          echo "::set-output name=name::${{ github.event.inputs.deploy_tag }}"
+        if [ ${{ github.event.inputs.input_tag }} ]; then
+          # 태그명 직접 작성
+          echo "::set-output name=name::${{ github.event.inputs.input_tag }}"
+        elif [ ${{ github.event.inputs.input_deploy == 'hotfix' }} ]; then
+          # 태그명 미작성 - hotfix
+          echo "::set-output name=name::${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}-1"
         else
-          echo "::set-output name=name::${{ github.event.inputs.deploy_tag }}-${{ steps.date.outputs.date }}"
+          # 태그명 미작성 - myrealtrip(정기)
+          echo "::set-output name=name::${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}"
         fi
     
     - name: Create Release
