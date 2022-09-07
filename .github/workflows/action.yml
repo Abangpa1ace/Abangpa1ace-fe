@@ -27,7 +27,7 @@ jobs:
       run: |
         echo "::set-output name=datetime::$(TZ=UTC-9 date +'%Y-%m-%d %H:%M:%S')"
         echo "::set-output name=date::$(TZ=UTC-9 date +'%Y%m%d')"
-        echo "::set-output name=time::$(TZ=UTC-9 date +'%H:%M')"
+        echo "::set-output name=time::$(TZ=UTC-9 date +'%H%M')"
       
     
     - name: Set Tag Name
