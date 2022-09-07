@@ -3,18 +3,13 @@ name: Build Production
 on:
   workflow_dispatch:
     inputs:
-      input_deploy:
+      deploy_type:
         type: choice
         required: true
         description: "배포타입: myrealtrip(정기)/hotfix(핫픽스)"
         options:
           - myrealtrip
           - hotfix
-#       input_hotfix_count:
-#         description: "핫픽스인 경우 횟수를 입력해주세요."
-#         default: "1"
-      input_tag:
-        description: "태그명을 직접 작성할 경우 입력해주세요."
 
 jobs:
   build:
