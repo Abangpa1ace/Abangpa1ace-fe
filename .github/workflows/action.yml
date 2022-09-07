@@ -23,16 +23,22 @@ jobs:
       id: date
       run: echo "::set-output name=date::$(TZ=UTC-9 date +'%Y%m%d')"
     
+    - name: Set Tag Name
+      id: tag
+      run: |
+        if [ ${{ github.event.inputs.deploy_tag }} ]; then
+          echo "::set-output name=name::github.event.inputs.deploy_tag"
+        else
+          echo "::set-output name=name::${{ github.event.inputs.deploy_tag }}-${{ steps.date.outputs.date }}"
+        fi
+    
     - name: Create Release
-      id: create_release
       uses: actions/github-script@v5
-      env:
-        TAG_NAME: ${{ steps.date.outputs.date }}
       with:
           script: |
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "refs/tags/${{ env.TAG_NAME }}",
+              ref: "refs/tags/${{ steps.tag.outputs.name }}",
               sha: context.sha
             })
