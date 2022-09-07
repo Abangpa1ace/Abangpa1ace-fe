@@ -20,13 +20,11 @@ jobs:
     # Set tag name by auto or input
     - name: Get tag datetime
       id: tag_datetime
-      run: echo "::set-output name=name::$(TZ=UTC-9 date +'%Y%m%d%H%M')"
+      run: echo "::set-output name=name::$(TZ=UTC-9 date +'%Y%m%dT%H%M')"
 
     # Create tag on present commit
     - name: Create Tag
       uses: actions/github-script@v5
-      # env:
-      #   TAG_NAME: ${{ github.event.inputs.deploy_type }}-$(TZ=UTC-9 date +'%Y%m%d%H%M')
       with:
         script: |
           github.rest.git.createRef({
