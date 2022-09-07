@@ -6,7 +6,7 @@ on:
       input_deploy:
         type: choice
         required: true
-        description: "배포타입: myrealtrip(정기), hotfix(핫픽스)"
+        description: "배포타입: myrealtrip(정기)/hotfix(핫픽스)"
         options:
           - myrealtrip
           - hotfix
