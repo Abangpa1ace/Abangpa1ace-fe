@@ -1,4 +1,4 @@
-name: Github Action Test
+name: Github Action Test (${{ github.event.inputs.input_deploy }})
 
 on:
   workflow_dispatch:
