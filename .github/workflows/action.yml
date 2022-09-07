@@ -26,17 +26,13 @@ jobs:
     - name: Set Tag Name
       id: tag
       run: |
-        if [ ${{ github.event.inputs.input_tag }} ]; then
+        if [ ${{github.event.inputs.input_tag != "" }} ]; then
           # 태그명 직접 작성
           echo "::set-output name=name::${{ github.event.inputs.input_tag }}"
-        elif [ ${{ github.event.inputs.input_deploy == 'hotfix' }} ]; then
-          # 태그명 미작성 - hotfix
-          echo "::set-output name=name::${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}-1"
         else
-          # 태그명 미작성 - myrealtrip(정기)
-          echo "::set-output name=name::${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}"
+          # 태그명 미작성 - hotfix(핫픽스) or myrealtrip(정기)
+          echo "::set-output name=name::${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}${{ github.event.inputs.input_deploy == 'hotfix' && -1 }}"
         fi
-      shell: bash
     
     - name: Create Release
       uses: actions/github-script@v5
