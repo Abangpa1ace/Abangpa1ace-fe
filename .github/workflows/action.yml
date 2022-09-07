@@ -24,24 +24,20 @@ jobs:
     
     - name: Get current date
       id: date
-      run: |
-        echo "::set-output name=datetime::$(TZ=UTC-9 date +'%Y-%m-%d %H:%M:%S')"
-        echo "::set-output name=date::$(TZ=UTC-9 date +'%Y%m%d')"
-        echo "::set-output name=time::$(TZ=UTC-9 date +'%H%M')"
+      run: echo "::set-output name=datetime::$(TZ=UTC-9 date +'%Y-%m-%d %H:%M:%S')"
       
-    
     - name: Set Tag Name
       id: tag
       env:
-        MRT_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')
-        HOTFIX_TAG: ${{ github.event.inputs.input_deploy }}-${{ steps.date.outputs.date }}-${{ steps.date.outputs.time }}
+        BASE_TAG: ${{ github.event.inputs.input_deploy }}-$(TZ=UTC-9 date +'%Y%m%d')
+        HOTFIX_TAG: ${{ env.BASE_TAG }}-$(TZ=UTC-9 date +'%H%M')
       run: |
         if [ ${{github.event.inputs.input_tag }} ]; then
           # 태그명 직접 작성
           echo "::set-output name=name::${{ github.event.inputs.input_tag }}"
         else
           # 태그명 미작성 - myrealtrip(정기) or hotfix(핫픽스)
-          echo "::set-output name=name::${{ github.event.inputs.input_deploy == 'myrealtrip' && env.MRT_TAG || env.HOTFIX_TAG }}"
+          echo "::set-output name=name::${{ github.event.inputs.input_deploy == 'myrealtrip' && env.BASE_TAG || env.HOTFIX_TAG }}"
         fi
     
     - name: Create Release
