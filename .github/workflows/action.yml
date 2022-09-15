@@ -23,13 +23,21 @@ jobs:
       run: echo "::set-output name=name::$(TZ=UTC-9 date +'%y%m%d_%H%M')"
 
     # Create tag on present commit
-    - name: Create Tag
-      uses: actions/github-script@v5
+    - name: Create a GitHub release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        script: |
-          github.rest.git.createRef({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            ref: "refs/tags/${{ github.event.inputs.deploy_type }}-${{ steps.tag_datetime.outputs.name }}",
-            sha: context.sha
-          })
+        tag_name: ${{ steps.tag_datetime.outputs.name }}
+        release_name: Release ${{ steps.tag_datetime.outputs.name }}
+
+#     - name: Create Tag
+#       uses: actions/github-script@v5
+#       with:
+#         script: |
+#           github.rest.git.createRef({
+#             owner: context.repo.owner,
+#             repo: context.repo.repo,
+#             ref: "refs/tags/${{ github.event.inputs.deploy_type }}-${{ steps.tag_datetime.outputs.name }}",
+#             sha: context.sha
+#           })
