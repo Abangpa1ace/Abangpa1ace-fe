@@ -3,13 +3,19 @@ name: Build Production
 on:
   workflow_dispatch:
     inputs:
+      # SelectBox : Deploy type for tags
       deploy_type:
         type: choice
         required: true
-        description: "배포타입: myrealtrip(정기)/hotfix(핫픽스)"
+        description: "배포타입: myrealtrip(정기), hotfix(핫픽스)"
         options:
           - myrealtrip
           - hotfix
+      # CheckBox : Is allowed to change version after deploy
+      version_change:
+        type: boolean
+        description: "버전변경 포함(서버배포 확인 필수)"
+        default: true
 
 jobs:
   build:
@@ -17,27 +23,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # Set tag name by auto or input
-    - name: Get tag datetime
-      id: tag_datetime
-      run: echo "::set-output name=name::$(TZ=UTC-9 date +'%y%m%d_%H%M')"
+    - name: Set Slack Message
+      id: success-slack-message
+      run: |
+          if [ github.event.inputs.version_change == 'true' ] then;
+            echo "::set-output name=::message$((<!here> 🌟프론트엔드 `${{ env.deploy_target }}` 배포가 완료 되었습니다.🥳\n\n- sha -> ${{ '7d8cc70c15c2b1d85525f0e8408001adf22f526e' }}\n✅버전이 변경되었으니 확인해주세요.))"
+          else
+            echo "::set-output name=::message$((<!here> 🌟프론트엔드 `${{ env.deploy_target }}` 배포가 완료 되었습니다.🥳\n\n- sha -> ${{ '7d8cc70c15c2b1d85525f0e8408001adf22f526e' }}\n⚠Frontend 버전 변경을 진행해주세요.))"
 
-    # Create tag on present commit
-    - name: Create a GitHub release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      with:
-        tag_name: ${{ steps.tag_datetime.outputs.name }}
-        release_name: Release ${{ steps.tag_datetime.outputs.name }}
+    - name: Use Slack Message
+      run: echo "${{ steps.success-slack-message.outputs.message }}"
 
-#     - name: Create Tag
-#       uses: actions/github-script@v5
-#       with:
-#         script: |
-#           github.rest.git.createRef({
-#             owner: context.repo.owner,
-#             repo: context.repo.repo,
-#             ref: "refs/tags/${{ github.event.inputs.deploy_type }}-${{ steps.tag_datetime.outputs.name }}",
-#             sha: context.sha
-#           })
+
