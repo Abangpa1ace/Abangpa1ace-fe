@@ -25,13 +25,17 @@ jobs:
 
     - name: Set Slack Message
       id: success-slack-message
-      shell: bash
-      run: |
-          if [ github.event.inputs.version_change == 'true' ] then;
-            echo "::set-output name=::message$((<!here> 🌟프론트엔드 `${{ env.deploy_target }}` 배포가 완료 되었습니다.🥳\n\n- sha -> ${{ '7d8cc70c15c2b1d85525f0e8408001adf22f526e' }}\n✅버전이 변경되었으니 확인해주세요.))"
-          else
-            echo "::set-output name=::message$((<!here> 🌟프론트엔드 `${{ env.deploy_target }}` 배포가 완료 되었습니다.🥳\n\n- sha -> ${{ '7d8cc70c15c2b1d85525f0e8408001adf22f526e' }}\n⚠Frontend 버전 변경을 진행해주세요.))"
-          fi
+      uses: haya14busa/action-cond@v1
+      with:
+        cond: ${{ github.event.inputs.version_change == 'true' }}
+        if_true: echo "::set-output name=::message$((<!here> 🌟프론트엔드 `${{ env.deploy_target }}` 배포가 완료 되었습니다.🥳\n\n- sha -> ${{ '7d8cc70c15c2b1d85525f0e8408001adf22f526e' }}\n✅버전이 변경되었으니 확인해주세요.))"
+        if_false: echo "::set-output name=::message$((<!here> 🌟프론트엔드 `${{ env.deploy_target }}` 배포가 완료 되었습니다.🥳\n\n- sha -> ${{ '7d8cc70c15c2b1d85525f0e8408001adf22f526e' }}\n⚠Frontend 버전 변경을 진행해주세요.))"
+#       run: |
+#           if [ github.event.inputs.version_change == 'true' ] then;
+#             echo "::set-output name=::message$((<!here> 🌟프론트엔드 `${{ env.deploy_target }}` 배포가 완료 되었습니다.🥳\n\n- sha -> ${{ '7d8cc70c15c2b1d85525f0e8408001adf22f526e' }}\n✅버전이 변경되었으니 확인해주세요.))"
+#           else
+#             echo "::set-output name=::message$((<!here> 🌟프론트엔드 `${{ env.deploy_target }}` 배포가 완료 되었습니다.🥳\n\n- sha -> ${{ '7d8cc70c15c2b1d85525f0e8408001adf22f526e' }}\n⚠Frontend 버전 변경을 진행해주세요.))"
+#           fi
 
     - name: Use Slack Message
       run: echo "${{ steps.success-slack-message.outputs.message }}"
